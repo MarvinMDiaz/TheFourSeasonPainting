@@ -31,11 +31,13 @@ LOGO_URL = "https://thefourseaonpainting.s3.us-east-1.amazonaws.com/logo-white.p
 
 PROJECTS = [
     {"id": 1, "title": "Interior Painting", "category": "Interior", "location": "Fairfax, VA", "before": "/static/images/gallery/b2.jpeg", "after": "/static/images/gallery/b1.jpeg"},
-    {"id": 2, "title": "Exterior Painting", "category": "Exterior", "location": "Burke, VA", "before": "/static/images/gallery/b4.jpeg", "after": "/static/images/gallery/b3.jpeg"},
-    {"id": 3, "title": "Home Renovation", "category": "Interior", "location": "Springfield, VA", "before": "/static/images/gallery/b6.jpeg", "after": "/static/images/gallery/b5.jpeg"},
-    {"id": 4, "title": "Exterior Refresh", "category": "Exterior", "location": "Alexandria, VA", "before": "/static/images/gallery/b8.jpeg", "after": "/static/images/gallery/b7.jpeg"},
-    {"id": 5, "title": "Room Transformation", "category": "Interior", "location": "McLean, VA", "before": "/static/images/gallery/b10.jpeg", "after": "/static/images/gallery/b9.jpeg"},
-    {"id": 6, "title": "Full Home Repaint", "category": "Exterior", "location": "Woodbridge, VA", "before": "/static/images/gallery/b12.jpeg", "after": "/static/images/gallery/b11.jpeg"},
+    {"id": 2, "title": "Interior Trim & Wainscoting", "category": "Interior", "location": "Burke, VA", "before": "/static/images/gallery/b11.jpeg", "after": "/static/images/gallery/b12.jpeg"},
+    {"id": 3, "title": "Deck Construction", "category": "Deck", "location": "Springfield, VA", "before": "/static/images/gallery/b5.jpeg", "after": "/static/images/gallery/b6.jpeg"},
+    {"id": 4, "title": "Bathroom Renovation", "category": "Interior", "location": "Alexandria, VA", "before": "/static/images/gallery/b9.jpeg", "after": "/static/images/gallery/b10.jpeg"},
+    {"id": 5, "title": "Bathroom Cabinet Painting", "category": "Cabinets", "location": "McLean, VA", "before": "/static/images/gallery/b9.jpeg", "after": "/static/images/gallery/b10.jpeg"},
+    {"id": 6, "title": "Exterior Repaint", "category": "Exterior", "location": "Woodbridge, VA", "before": "/static/images/gallery/b11.jpeg", "after": "/static/images/gallery/b12.jpeg"},
+    {"id": 7, "title": "Custom Built-In Cabinets", "category": "Cabinets", "location": "Centreville, VA", "before": "/static/images/gallery/b7.jpeg", "after": "/static/images/gallery/b8.jpeg"},
+    {"id": 8, "title": "Deck Paint & Restoration", "category": "Deck", "location": "Manassas, VA", "before": "/static/images/gallery/b3.jpeg", "after": "/static/images/gallery/b4.jpeg"},
 ]
 
 
@@ -284,6 +286,7 @@ def contact():
             },
         )
     except Exception as e:
+        print(str(e))
         return jsonify({"success": False, "error": str(e)}), 500
 
     try:

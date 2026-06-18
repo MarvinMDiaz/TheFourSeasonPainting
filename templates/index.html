@@ -1,0 +1,708 @@
+{% extends "base.html" %}
+
+{% block title %}The Four Season Painting | Painting & Home Improvement — Northern Virginia{% endblock %}
+
+{% set logo_url = url_for('static', filename='images/logo.png') %}
+{% set logo_white_url = url_for('static', filename='images/logo-white.png') %}
+{% set nav_links = [
+  ('home', 'Home', '#home'),
+  ('about', 'About', '#about'),
+  ('services', 'Services', '#services'),
+  ('gallery', 'Gallery', '#gallery'),
+  ('reviews', 'Reviews', '#reviews'),
+  ('contact', 'Contact', '#contact'),
+] %}
+
+{% block content %}
+<!-- ========== 2. HERO (full viewport, bg from top) ========== -->
+<section id="home" class="relative min-h-screen w-full overflow-hidden">
+  <!-- Background: pinned to viewport top, behind everything -->
+  <div class="absolute inset-0 z-0">
+    <img
+      src="{{ url_for('static', filename='images/landingPage.png') }}"
+      alt="Professional painting crew at work on a Northern Virginia home"
+      class="w-full h-full object-cover object-center"
+      loading="eager"
+      fetchpriority="high"
+    >
+      <div class="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/40"></div>
+  </div>
+
+  <!-- ========== 1. NAVBAR (fixed overlay) ========== -->
+  <nav
+    id="navbar"
+    x-data="{ open: false, scrolled: false, active: 'home' }"
+    @scroll.window="scrolled = window.scrollY > 60"
+    :class="scrolled ? 'bg-white shadow-md border-b border-gray-100' : 'bg-transparent'"
+    class="site-navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  >
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-8 pt-4 pb-8 lg:py-4 w-full">
+      <div class="flex-1">
+        <a href="#home" @click="active = 'home'" class="cursor-pointer" aria-label="The Four Season Painting — Home">
+          <img
+            :src="scrolled ? '{{ logo_url }}' : '{{ logo_white_url }}'"
+            alt="The Four Season Painting logo"
+            style="height:128px;width:auto"
+            loading="eager"
+          >
+        </a>
+      </div>
+
+      <div
+        class="hidden md:flex rounded-full px-2 py-1.5 items-center gap-1"
+        :class="scrolled ? 'bg-gray-100' : 'bg-white/20 backdrop-blur-sm'"
+      >
+        {% for id, label, href in nav_links %}
+        <a
+          href="{{ href }}"
+          @click="active = '{{ id }}'"
+          {% if id == 'contact' %}
+          class="px-5 py-1.5 rounded-full text-sm bg-accent text-white font-semibold btn-accent hover:bg-accentdark"
+          {% else %}
+          :class="active === '{{ id }}'
+            ? 'bg-white text-gray-900 font-semibold shadow-sm'
+            : (scrolled ? 'text-gray-600 hover:text-gray-900 hover:bg-white/10' : 'text-white hover:text-white/80 hover:bg-white/10')"
+          class="px-5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer"
+          {% endif %}
+        >{{ label }}</a>
+        {% endfor %}
+      </div>
+
+      <div class="flex-1 flex items-center justify-end">
+        <button
+          @click="open = !open"
+          class="md:hidden p-2 transition-colors cursor-pointer"
+          :class="scrolled ? 'text-gray-700' : 'text-white'"
+          :aria-expanded="open"
+          aria-label="Toggle navigation menu"
+        >
+          <i class="fa-solid fa-bars text-xl" x-show="!open"></i>
+          <i class="fa-solid fa-xmark text-xl" x-show="open" x-cloak></i>
+        </button>
+      </div>
+    </div>
+
+    <div x-show="open" x-transition @click.outside="open = false" class="md:hidden border-t border-gray-100 bg-white px-6 pb-6" x-cloak>
+      <div class="bg-gray-100 rounded-2xl p-2 mt-4 flex flex-col gap-1">
+        {% for id, label, href in nav_links %}
+        <a
+          href="{{ href }}"
+          @click="open = false; active = '{{ id }}'"
+          {% if id == 'contact' %}
+          class="px-5 py-2.5 rounded-full text-sm bg-accent text-white font-semibold btn-accent hover:bg-accentdark"
+          {% else %}
+          :class="active === '{{ id }}' ? 'bg-white text-gray-900 font-semibold shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-white/10'"
+          class="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer"
+          {% endif %}
+        >{{ label }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero content (padded below fixed nav) -->
+  <div class="relative z-10 min-h-screen flex items-center pt-32 sm:pt-40 lg:pt-20">
+    <div class="max-w-7xl mx-auto px-6 pb-12 w-full">
+      <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+        <!-- Left content -->
+        <div class="flex-1 text-white">
+          <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
+            Professional<br>
+            Painting Services<br>
+            For Every Season
+          </h1>
+          <p class="mt-5 text-blue-100 text-lg max-w-lg">
+            Interior &amp; Exterior Painting — Licensed, Insured &amp; Built to Last
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center gap-6">
+            <a href="#contact" class="inline-flex items-center bg-accent text-white rounded-full px-7 py-3 font-bold btn-accent btn-accent-cta hover:bg-accentdark">
+              Get a Free Quote
+            </a>
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-full border-2 border-white/40 flex items-center justify-center">
+                <i class="fa-solid fa-headset text-white"></i>
+              </div>
+              <div>
+                <p class="text-sm text-blue-100">Call us Today</p>
+                <a href="tel:+17039445717" class="text-white font-bold hover:text-accent transition cursor-pointer">703-944-5717</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right — floating form card -->
+        <div class="w-full lg:w-auto lg:flex-shrink-0" x-data="heroForm()">
+          <div class="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-auto lg:mx-0 overflow-hidden" x-ref="formCard">
+            <h2 class="font-heading text-primary font-black text-2xl">Get Started Now</h2>
+            <p class="text-gray-500 text-sm mt-2">Fill out the form and we'll get back to you promptly.</p>
+
+            <form x-show="!success" @submit.prevent="submit" class="mt-6 space-y-4">
+              <input type="text" name="name" x-model="form.name" placeholder="Your Name" required
+                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40">
+              <input type="email" name="email" x-model="form.email" placeholder="Email Address" required
+                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40">
+              <input type="tel" name="phone" x-model="form.phone" placeholder="Phone Number"
+                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40">
+              <textarea name="message" x-model="form.message" placeholder="Message" rows="3" required
+                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40 resize-none"></textarea>
+
+              <div x-show="error" x-cloak class="text-red-600 text-sm" x-text="error"></div>
+
+              <button type="submit" :disabled="loading"
+                class="w-full bg-accent text-white rounded-xl py-3 font-bold btn-accent hover:bg-accentdark disabled:opacity-60 disabled:hover:scale-100 disabled:hover:shadow-none">
+                <span x-show="!loading">Send Message</span>
+                <span x-show="loading" x-cloak><i class="fa-solid fa-spinner fa-spin mr-1"></i> Sending...</span>
+              </button>
+            </form>
+            <div x-show="success" x-cloak class="mt-6 text-center py-10">
+              <i class="fa-solid fa-circle-check text-accent text-5xl"></i>
+              <p class="mt-4 text-lg font-semibold text-accent">Thanks! We'll be in touch shortly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <!-- ========== 3. ABOUT US ========== -->
+  <section id="about" class="py-24 px-6 bg-lightblue">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Photo collage -->
+      <div class="relative reveal">
+        <img src="{{ url_for('static', filename='images/neighborhood.png') }}" alt="Neighborhood homes we serve" class="w-full rounded-2xl shadow-lg" loading="lazy">
+        <img src="{{ url_for('static', filename='images/livingspace.png') }}" alt="Beautifully painted living space"
+          class="absolute -bottom-6 -left-4 w-2/3 rounded-2xl shadow-xl border-4 border-white" loading="lazy">
+        <div class="absolute bottom-4 right-0 bg-primary text-white rounded-2xl p-5 shadow-xl w-48">
+          <i class="fa-solid fa-paint-roller text-accent text-xl mb-2"></i>
+          <p class="font-heading font-bold text-white">Painting Excellence</p>
+          <p class="text-gray-300 text-xs mt-1 leading-relaxed">Quality finishes that stand the test of time.</p>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div>
+        <div class="reveal">
+        <span class="inline-flex items-center gap-2 bg-lightblue border border-accent/30 rounded-full px-4 py-1 text-sm text-accent font-medium shadow-sm">
+          <span class="text-accent">•</span> About Us
+        </span>
+        <h2 class="font-heading text-3xl md:text-4xl font-black leading-tight mt-5">
+          <span class="text-primary">Building Trust Through</span><br>
+          <span class="text-accent">Quality Home Improvement</span>
+        </h2>
+        </div>
+        <p class="mt-5 text-gray-600 leading-relaxed">
+          For over 20 years, The Four Season Painting has been the trusted name in home improvement across Northern Virginia. From Burke and Springfield to McLean and Great Falls, our licensed and insured team delivers exceptional results — on time, every time. We proudly serve Burke, Springfield, Fairfax, Clifton, Centreville, Chantilly, Manassas, Alexandria, Lorton, Woodbridge, Dumfries, Stafford, Bristow, Falls Church, Tysons Corner, McLean, and Great Falls.
+        </p>
+        <div class="grid grid-cols-2 gap-3 mt-8">
+          {% for item in ['Licensed & Insured Contractors', '20+ Years of Experience', 'Interior & Exterior Experts', 'Bathroom & Kitchen Remodeling', 'Electrical & Plumbing Services', 'Drywall & Finishing', 'Fence & Carpentry Work', 'Roof Repair Specialists'] %}
+          <div class="flex items-center text-sm text-gray-700">
+            <i class="fa-solid fa-circle-check text-accent mr-2 flex-shrink-0"></i> {{ item }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. SERVICES ========== -->
+  <section id="services" class="py-24 px-6 bg-lightblue">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center reveal">
+        <span class="inline-flex items-center gap-2 bg-lightblue border border-accent/30 rounded-full px-4 py-1 text-sm text-accent font-medium shadow-sm">
+          <span class="text-accent">•</span> Our Services
+        </span>
+        <h2 class="font-heading text-3xl md:text-4xl font-black leading-tight mt-5">
+          <span class="text-primary">Transform your space with</span><br>
+          <span class="text-accent">our expert services</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-14">
+        {% set services = [
+          ('fa-paint-roller', 'Interior & Exterior Painting', 'Premium finishes that protect and beautify your home for years to come.'),
+          ('fa-sink', 'Bathroom & Kitchen Remodeling', 'Full remodels that blend function and beauty — from tile to fixtures, we handle it all.'),
+          ('fa-bolt', 'Electrical & Plumbing', 'Licensed electrical and plumbing work done safely, cleanly, and up to code.'),
+          ('fa-hammer', 'Fence & Carpentry', 'Custom fencing, decks, and carpentry crafted to endure every season.'),
+          ('fa-layer-group', 'Drywall & Finishing', 'Flawless drywall installation, patching, and finishing for walls that look brand new.'),
+          ('fa-house', 'Roof Repairs', 'Fast, reliable roof repairs before small issues become big ones.'),
+          ('fa-droplet', 'Fence & Siding Power Wash', 'Professional power washing to restore your fence and siding to like-new condition.'),
+          ('fa-brush', 'Fence & Deck Stain', 'Expert staining to protect and refresh your deck and fence for years to come.'),
+        ] %}
+        {% for icon, title, desc in services %}
+        <div class="flex items-stretch rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 group reveal reveal-delay-{{ loop.index }}">
+          <div class="w-1.5 bg-accent flex-shrink-0" aria-hidden="true"></div>
+          <div class="w-20 flex-shrink-0 bg-slate-100 flex items-center justify-center">
+            <i class="fa-solid {{ icon }} text-accent text-2xl"></i>
+          </div>
+          <div class="flex-1 p-5 bg-white">
+            <h3 class="text-primary font-bold text-base">{{ title }}</h3>
+            <p class="text-gray-500 text-sm mt-1 leading-relaxed">{{ desc }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 5. BEFORE & AFTER GALLERY ========== -->
+  <section id="gallery" class="py-24 px-6 bg-lightblue" x-data="{ activeCategory: 'All', categories: ['All', 'Interior', 'Exterior', 'Cabinets', 'Deck', 'Commercial'] }">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center reveal">
+        <h2 class="font-heading text-primary font-black text-4xl">Before &amp; After Gallery</h2>
+        <p class="mt-3 text-gray-500">Drag the slider on each project to see the transformation.</p>
+      </div>
+
+      <div class="flex gap-3 justify-center flex-wrap mt-8 mb-12">
+        <template x-for="cat in categories" :key="cat">
+          <button @click="activeCategory = cat"
+            :class="activeCategory === cat ? 'bg-primary text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-primary hover:text-primary'"
+            class="rounded-full px-5 py-2 font-semibold text-sm transition-all duration-200 cursor-pointer" x-text="cat"></button>
+        </template>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for project in projects %}
+        <div
+          class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 reveal reveal-delay-{{ loop.index }}"
+          x-show="activeCategory === 'All' || activeCategory === '{{ project.category }}'"
+          x-transition
+        >
+          <div class="ba-slider relative aspect-[4/3]" x-init="$nextTick(() => initBeforeAfterSlider($el))" role="group" aria-label="Before and after: {{ project.title }}">
+            <img
+              src="{{ project.before }}"
+              alt="Before photo — {{ project.title }} in {{ project.location }}"
+              class="absolute inset-0 z-0 w-full h-full object-cover"
+              loading="lazy"
+            >
+            <div class="ba-after-wrap gallery-after absolute inset-0 z-[1] h-full w-full overflow-hidden">
+              <img
+                src="{{ project.after }}"
+                alt="After photo — {{ project.title }} in {{ project.location }}"
+                class="absolute top-0 left-0 h-full w-full max-w-none object-cover"
+                loading="lazy"
+              >
+            </div>
+            <span class="ba-label-before absolute top-0 left-0 z-[2]">BEFORE</span>
+            <span class="ba-label-after absolute top-0 right-0 z-[2]">AFTER</span>
+            <div class="ba-handle absolute z-[3]" role="slider" aria-label="Drag to compare before and after">
+              <div class="ba-handle-btn">‹ ›</div>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="text-primary font-bold text-lg">{{ project.title }}</h3>
+            <p class="text-gray-400 text-sm mt-1">{{ project.category }} — {{ project.location }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 6. WHY CHOOSE US ========== -->
+  <section id="why-us" class="py-24 px-6 bg-white">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Photo collage -->
+      <div class="relative reveal">
+        <img src="{{ url_for('static', filename='images/deck.png') }}" alt="Custom deck and outdoor carpentry work" class="w-3/4 ml-auto rounded-2xl shadow-lg" loading="lazy">
+        <img src="{{ url_for('static', filename='images/stairs.png') }}" alt="Finished stairway and interior craftsmanship"
+          class="absolute bottom-0 left-0 w-3/5 rounded-2xl shadow-xl border-4 border-white" loading="lazy">
+        <div class="absolute bottom-6 right-0 bg-dark text-white rounded-2xl p-5 shadow-xl w-52">
+          <i class="fa-solid fa-hard-hat text-accent text-xl mb-2"></i>
+          <p class="font-heading font-bold">Cost Effective Solutions</p>
+          <p class="text-gray-400 text-xs mt-1">Quality work that fits your budget.</p>
+        </div>
+      </div>
+
+      <!-- Stats & features -->
+      <div class="relative">
+        <div class="reveal">
+        <span class="inline-flex items-center gap-2 bg-lightblue border border-accent/30 rounded-full px-4 py-1 text-sm text-accent font-medium shadow-sm">
+          <span class="text-accent">•</span> Why Choose Us
+        </span>
+        <h2 class="font-heading text-3xl md:text-4xl font-black leading-tight mt-5">
+          <span class="text-primary">Discover why clients trust</span><br>
+          <span class="text-accent">our expert services</span>
+        </h2>
+        </div>
+        <p class="mt-4 text-gray-600 leading-relaxed">
+          We combine years of experience with premium materials and transparent pricing to deliver painting results you'll love — on time and on budget.
+        </p>
+
+        <div class="grid grid-cols-3 gap-6 mt-8 mb-8 border-t border-b border-gray-200 py-8">
+          <div class="text-center">
+            <p class="text-4xl font-black text-primary">500+</p>
+            <p class="text-sm text-gray-500 mt-1">Projects Completed</p>
+          </div>
+          <div class="text-center border-x border-gray-200">
+            <p class="text-4xl font-black text-primary">300+</p>
+            <p class="text-sm text-gray-500 mt-1">Happy Clients</p>
+          </div>
+          <div class="text-center">
+            <p class="text-4xl font-black text-primary">100%</p>
+            <p class="text-sm text-gray-500 mt-1">Client Satisfaction</p>
+          </div>
+        </div>
+
+        <ul class="space-y-4">
+          {% for feat in ['Experienced And Skilled Professional Team', 'High Quality Materials For Long Lasting Results', 'Affordable Pricing With No Hidden Charges'] %}
+          <li class="flex items-center text-gray-700">
+            <i class="fa-solid fa-circle-check text-accent mr-2 flex-shrink-0"></i> {{ feat }}
+          </li>
+          {% endfor %}
+        </ul>
+
+        <a href="#contact" class="absolute -bottom-4 right-0 lg:bottom-0 lg:right-0 block w-24 h-24 cursor-pointer" aria-label="Contact us">
+          <div class="relative w-full h-full">
+            <svg class="spin-slow w-full h-full" viewBox="0 0 100 100">
+              <defs>
+                <path id="circlePath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"/>
+              </defs>
+              <text font-size="9" fill="#5bb8f5" font-weight="600" letter-spacing="2">
+                <textPath href="#circlePath">Contact Us • Contact Us • </textPath>
+              </text>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white">
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 7. FREE ESTIMATE CTA BANNER ========== -->
+  <section id="estimate" class="relative bg-primary py-20 px-6 overflow-hidden">
+    <svg class="absolute inset-0 w-full h-full opacity-[0.06] pointer-events-none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <pattern id="paint-strokes" width="120" height="120" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+          <path d="M0 60 Q30 20 60 60 T120 60" stroke="white" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M0 90 Q40 50 80 90 T160 90" stroke="white" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#paint-strokes)"/>
+    </svg>
+
+    <div class="relative z-10 max-w-4xl mx-auto text-center reveal">
+      <span class="inline-block bg-accent text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
+        Limited Time
+      </span>
+
+      <h2 class="font-heading text-white text-4xl md:text-5xl font-black mt-6">
+        Get Your Free Estimate Today
+      </h2>
+
+      <p class="text-blue-200 text-lg mt-4 max-w-xl mx-auto">
+        No obligation, no pressure. We'll come to you, assess the job, and give you a transparent quote — completely free.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+        <a href="tel:+17039445717" class="inline-flex items-center gap-3 bg-accent text-white rounded-full px-10 py-4 font-bold text-xl btn-accent btn-accent-cta hover:bg-accentdark shadow-xl">
+          <i class="fa-solid fa-phone"></i>
+          Call 703-944-5717
+        </a>
+        <a href="#contact" class="inline-flex items-center border-2 border-white/40 text-white rounded-full px-8 py-4 font-semibold btn-ghost">
+          Or Fill Out Our Form
+        </a>
+      </div>
+
+      <div class="flex gap-4 justify-center mt-8 flex-wrap">
+        <span class="bg-white/10 text-white/80 text-sm rounded-full px-4 py-2 flex items-center gap-2">
+          <i class="fa-solid fa-circle-check text-accent mr-2"></i> Free On-Site Estimate
+        </span>
+        <span class="bg-white/10 text-white/80 text-sm rounded-full px-4 py-2 flex items-center gap-2">
+          <i class="fa-solid fa-circle-check text-accent mr-2"></i> Response Within 24 Hours
+        </span>
+        <span class="bg-white/10 text-white/80 text-sm rounded-full px-4 py-2 flex items-center gap-2">
+          <i class="fa-solid fa-circle-check text-accent mr-2"></i> Licensed &amp; Insured
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 8. GOOGLE REVIEWS ========== -->
+  <section id="reviews" class="py-24 px-6 bg-lightblue">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12 reveal">
+        <span class="inline-flex items-center gap-2 bg-white border border-accent/30 rounded-full px-4 py-1 text-sm text-accent font-medium shadow-sm mb-4">
+          <span class="text-accent">•</span> What Our Clients Say
+        </span>
+        <h2 class="font-heading text-3xl md:text-4xl font-black text-primary">
+          What Our Customers
+          <span class="text-accent">Are Saying</span>
+        </h2>
+      </div>
+
+      {# Elfsight Google Reviews Widget — ID loaded from .env via Flask #}
+      {% if elfsight_app_id %}
+      <div class="elfsight-app-{{ elfsight_app_id }}" data-elfsight-app-lazy></div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ========== 8. CONTACT ========== -->
+  <section id="contact" class="relative min-h-[600px] flex items-center py-24">
+    <div class="absolute inset-0 z-0 reveal">
+      <img src="{{ url_for('static', filename='images/backyard.png') }}" alt="Beautiful backyard and outdoor living space" class="w-full h-full object-cover" loading="lazy">
+      <div class="absolute inset-0 bg-primary/70"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+      <div class="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+        <!-- Left -->
+        <div class="flex-1 text-white">
+          <div class="reveal">
+          <span class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1 text-sm font-medium">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            </span> Contact Now
+          </span>
+          <h2 class="font-heading text-3xl md:text-5xl font-black leading-tight mt-6">
+            <span class="text-white">Let's connect for your</span><br>
+            <span class="text-accent">painting project</span>
+          </h2>
+          </div>
+          <p class="mt-4 text-blue-100 max-w-md leading-relaxed">
+            Get in touch with our team for expert painting services. We are here to understand your requirements and deliver exceptional results.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 mt-10">
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-5 py-4 flex items-center gap-3 flex-1 cursor-pointer transition-all duration-200 hover:bg-white/20 hover:scale-[1.02]">
+              <div class="w-11 h-11 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-headset text-accent"></i>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm">Call For a Free Estimate</p>
+                <a href="tel:+17039445717" class="text-accent font-semibold hover:underline cursor-pointer">703-944-5717</a>
+              </div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-5 py-4 flex items-center gap-3 flex-1 cursor-pointer transition-all duration-200 hover:bg-white/20 hover:scale-[1.02]">
+              <div class="w-11 h-11 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-envelope text-accent"></i>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm">Email Us Anytime</p>
+                <a href="mailto:info@fourseasonpainting.com" class="text-accent font-semibold hover:underline cursor-pointer">info@fourseasonpainting.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right — form card -->
+        <div class="w-full lg:max-w-lg" x-data="contactForm()">
+          <div class="relative bg-white rounded-3xl shadow-2xl p-10 overflow-hidden" x-ref="formCard">
+            <h2 class="font-heading text-3xl font-black">
+              <span class="text-primary">Get in touch </span><span class="text-accent">with us</span>
+            </h2>
+            <hr class="my-4 border-gray-100">
+
+            <form x-show="!success" @submit.prevent="submit" class="grid grid-cols-2 gap-4">
+              <div class="col-span-2">
+                <label for="contact_name" class="block text-sm font-semibold text-primary mb-1">Name</label>
+                <input type="text" id="contact_name" name="name" x-model="form.name" placeholder="Enter Your Name" required
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40 w-full">
+              </div>
+              <div>
+                <label for="contact_email" class="block text-sm font-semibold text-primary mb-1">Email Address</label>
+                <input type="email" id="contact_email" name="email" x-model="form.email" placeholder="Enter Your Email" required
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40 w-full">
+              </div>
+              <div>
+                <label for="contact_phone" class="block text-sm font-semibold text-primary mb-1">Phone Number</label>
+                <input type="tel" id="contact_phone" name="phone" x-model="form.phone" placeholder="Enter Your Phone"
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40 w-full">
+              </div>
+              <div class="col-span-2">
+                <label for="contact_message" class="block text-sm font-semibold text-primary mb-1">Message</label>
+                <textarea id="contact_message" name="message" x-model="form.message" placeholder="Tell us about your project" rows="4" required
+                  class="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/40 w-full resize-none"></textarea>
+              </div>
+
+              <div x-show="error" x-cloak class="col-span-2 text-red-600 text-sm" x-text="error"></div>
+
+              <button type="submit" :disabled="loading"
+                class="col-span-2 w-full bg-dark text-white rounded-full py-4 font-bold text-base hover:bg-secondary transition-all duration-200 mt-2 disabled:opacity-60 cursor-pointer">
+                <span x-show="!loading">Send A Message →</span>
+                <span x-show="loading" x-cloak><i class="fa-solid fa-spinner fa-spin mr-1"></i> Sending...</span>
+              </button>
+            </form>
+            <div x-show="success" x-cloak class="text-center py-12">
+              <i class="fa-solid fa-circle-check text-accent text-5xl"></i>
+              <p class="mt-4 text-lg font-semibold text-accent">Thanks! We'll be in touch shortly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ========== 9. FOOTER ========== -->
+<footer class="bg-dark footer-pattern text-gray-400">
+  <div class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+    <!-- Brand -->
+    <div>
+      <img src="{{ logo_white_url }}" alt="The Four Season Painting" class="block" style="height:120px;width:auto" loading="lazy">
+      <p class="text-gray-400 text-sm leading-relaxed" style="margin-top:0;padding-top:0">
+        Professional painting services designed to transform your space with quality, creativity, and precision.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h3 class="text-white font-bold mb-5">Quick Links</h3>
+      <ul class="space-y-2">
+        {% for link in [('Home', '#home'), ('About Us', '#about'), ('Services', '#services'), ('Gallery', '#gallery'), ('Contact Us', '#contact')] %}
+        <li><a href="{{ link[1] }}" class="text-gray-400 hover:text-accent text-sm transition flex items-center cursor-pointer"><i class="fa-solid fa-circle-check text-accent mr-2 flex-shrink-0"></i> {{ link[0] }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Services -->
+    <div>
+      <h3 class="text-white font-bold mb-5">Our Services</h3>
+      <ul class="space-y-2">
+        {% for svc in ['Interior & Exterior Painting', 'Bathroom & Kitchen Remodeling', 'Electrical & Plumbing', 'Fence & Carpentry', 'Drywall & Finishing', 'Roof Repairs'] %}
+        <li><a href="#services" class="text-gray-400 hover:text-accent text-sm transition flex items-center cursor-pointer"><i class="fa-solid fa-circle-check text-accent mr-2 flex-shrink-0"></i> {{ svc }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-secondary">
+    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-2 text-sm text-gray-500">
+      <p>Copyright © 2026 All Rights Reserved.</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-accent transition cursor-pointer">Privacy Policy</a>
+        <span>•</span>
+        <a href="#" class="hover:text-accent transition cursor-pointer">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const CONFETTI_COLORS = ['#5bb8f5', '#0a1628', '#ffcc00', '#4cbe6c', '#e8558a'];
+
+  function burstConfetti(container) {
+    if (!container) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:20;';
+    container.appendChild(canvas);
+
+    const { width, height } = container.getBoundingClientRect();
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext('2d');
+    const particles = Array.from({ length: 90 }, () => ({
+      x: width / 2,
+      y: height / 2,
+      w: Math.random() * 8 + 4,
+      h: Math.random() * 6 + 3,
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 0.5) * 14 - 5,
+      rot: Math.random() * Math.PI,
+      vr: (Math.random() - 0.5) * 0.25,
+      gravity: 0.18,
+      opacity: 1,
+    }));
+
+    let frame = 0;
+    const maxFrames = 110;
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      let alive = false;
+
+      for (const p of particles) {
+        p.vy += p.gravity;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        if (frame > 50) p.opacity -= 0.025;
+        if (p.opacity <= 0) continue;
+
+        alive = true;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.opacity);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+
+      frame += 1;
+      if (frame < maxFrames && alive) {
+        requestAnimationFrame(animate);
+      } else {
+        canvas.remove();
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  function contactFormFields() {
+    return {
+      form: { name: '', email: '', phone: '', message: '' },
+      loading: false,
+      error: '',
+      success: false,
+      resetTimer: null,
+      async submit() {
+        this.error = '';
+        this.success = false;
+        if (this.resetTimer) {
+          clearTimeout(this.resetTimer);
+          this.resetTimer = null;
+        }
+        if (!this.form.name || !this.form.email || !this.form.message) {
+          this.error = 'Please fill in all required fields.';
+          return;
+        }
+        this.loading = true;
+        try {
+          const res = await fetch('/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.form),
+          });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.error || 'Something went wrong.');
+          this.success = true;
+          this.$nextTick(() => burstConfetti(this.$refs.formCard));
+          this.resetTimer = setTimeout(() => {
+            this.success = false;
+            this.form = { name: '', email: '', phone: '', message: '' };
+            this.resetTimer = null;
+          }, 4000);
+        } catch (err) {
+          this.error = err.message;
+        } finally {
+          this.loading = false;
+        }
+      },
+    };
+  }
+
+  function heroForm() {
+    return contactFormFields();
+  }
+
+  function contactForm() {
+    return contactFormFields();
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}The Four Season Painting{% endblock %}</title>
+  <meta name="description" content="Professional interior and exterior painting services. Licensed, insured, and built to last.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="The Four Season Painting — Northern Virginia">
+  <meta property="og:description" content="Professional interior & exterior painting, remodeling, and home improvement across Northern Virginia. Licensed, insured, 20+ years of experience.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://thefourseasonpainting.com">
+  <meta property="og:image" content="https://thefourseaonpainting.s3.us-east-1.amazonaws.com/logo-white.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Four Season Painting — Northern Virginia">
+  <meta name="twitter:description" content="Licensed painting & home improvement contractor serving Northern Virginia.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "The Four Season Painting",
+    "description": "Professional interior and exterior painting, remodeling, drywall, electrical, plumbing, and carpentry services across Northern Virginia.",
+    "url": "https://thefourseasonpainting.com",
+    "telephone": "+17039445717",
+    "email": "jose@thefourseasonpainting.com",
+    "address": { "@type": "PostalAddress", "addressRegion": "VA", "addressCountry": "US" },
+    "areaServed": ["Burke", "Springfield", "Fairfax", "McLean", "Alexandria", "Centreville", "Chantilly", "Manassas", "Woodbridge", "Lorton", "Dumfries", "Great Falls"],
+    "priceRange": "$$",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Home Improvement Services",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Interior & Exterior Painting"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Bathroom & Kitchen Remodeling"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Drywall & Finishing"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Fence & Carpentry"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Roof Repairs"}}
+      ]
+    }
+  }
+  </script>
+
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='images/site.webmanifest') }}">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:    '#0a1628',
+            secondary:  '#1e3a5f',
+            accent:     '#5bb8f5',
+            accentdark: '#2e86c1',
+            dark:       '#060e1a',
+            lightblue:  '#e8f4fd',
+          },
+          fontFamily: {
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+            heading: ['Manrope', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <script src="https://elfsightcdn.com/platform.js" async></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+  <style>[x-cloak] { display: none !important; }</style>
+  {% block head %}{% endblock %}
+</head>
+<body class="font-sans text-gray-700 antialiased">
+  <div id="preloader" style="position:fixed;inset:0;background:#0a1628;z-index:9999;display:flex;align-items:center;justify-content:center;">
+    <svg id="preloaderSvg" viewBox="0 0 400 340" width="400" height="340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="plGlow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="plHandle" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#b8904a"/>
+          <stop offset="50%" stop-color="#e8c490"/>
+          <stop offset="100%" stop-color="#c8a06a"/>
+        </linearGradient>
+        <linearGradient id="plBristle" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0%" stop-color="#5bb8f5"/>
+          <stop offset="100%" stop-color="#3a9de0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Four season arc segments (quarter circle each, ~154px) -->
+      <!-- Yellow: top→right | Blue: right→bottom | Green: bottom→left | Pink: left→top -->
+      <path id="plArc0" d="M 200 72 A 98 98 0 0 1 298 170" fill="none" stroke="#ffcc00" stroke-width="6" stroke-linecap="round" filter="url(#plGlow)" style="stroke-dasharray:154;stroke-dashoffset:154;"/>
+      <path id="plArc1" d="M 298 170 A 98 98 0 0 1 200 268" fill="none" stroke="#5bb8f5" stroke-width="6" stroke-linecap="round" filter="url(#plGlow)" style="stroke-dasharray:154;stroke-dashoffset:154;"/>
+      <path id="plArc2" d="M 200 268 A 98 98 0 0 1 102 170" fill="none" stroke="#4cbe6c" stroke-width="6" stroke-linecap="round" filter="url(#plGlow)" style="stroke-dasharray:154;stroke-dashoffset:154;"/>
+      <path id="plArc3" d="M 102 170 A 98 98 0 0 1 200 72"  fill="none" stroke="#e8558a" stroke-width="6" stroke-linecap="round" filter="url(#plGlow)" style="stroke-dasharray:154;stroke-dashoffset:154;"/>
+
+      <!-- Logo — fades in after brush completes circle -->
+      <g id="plLogo" opacity="0" style="transition:opacity 0.7s ease;">
+        <image href="{{ url_for('static', filename='images/logo-white.png') }}" x="120" y="90" width="160" height="160"/>
+      </g>
+
+      <!-- Brush — tip at origin, leads the stroke at 38° holding angle -->
+      <g id="plBrush" opacity="0">
+        <ellipse cx="2" cy="0" rx="5" ry="3.5" fill="#5bb8f5" opacity="0.95"/>
+        <path d="M0,0 L-22,-5.5 L-24,0 L-22,5.5 Z" fill="url(#plBristle)"/>
+        <path d="M-4,-2.5 L-21,-4 L-21,4 L-4,2.5" fill="rgba(255,255,255,0.1)"/>
+        <line x1="-3" y1="-2" x2="-20" y2="-2.5" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>
+        <rect x="-30" y="-6" width="10" height="12" rx="1.5" fill="#b8c4cc"/>
+        <rect x="-29" y="-6" width="2.5" height="12" fill="rgba(255,255,255,0.25)"/>
+        <rect x="-30" y="-1" width="10" height="2" fill="rgba(0,0,0,0.15)"/>
+        <rect x="-82" y="-5" width="54" height="10" rx="2.5" fill="url(#plHandle)"/>
+        <line x1="-80" y1="-2" x2="-32" y2="-2" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+        <line x1="-80" y1="1.5" x2="-32" y2="1.5" stroke="rgba(255,255,255,0.18)" stroke-width="0.7"/>
+        <rect x="-84" y="-4.5" width="4" height="9" rx="2" fill="#a07030"/>
+      </g>
+    </svg>
+  </div>
+  {% block content %}{% endblock %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
